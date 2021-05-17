@@ -1,0 +1,26 @@
+#+TITLE: Memoria
+#+AUTHOR: Pedro Gómez Martín
+
+#+LATEX_CLASS_OPTIONS: [a4paper]
+#+LATEX_HEADER: \usepackage[a4paper, margin=2.5cm]{geometry}
+#+LATEX_HEADER: \usepackage[utf8]{inputenc}
+#+LATEX_HEADER: \usepackage[spanish]{babel}
+#+LATEX_HEADER: \usepackage[bottom]{footmisc}
+
+#+LATEX_HEADER: \usepackage{minted}
+#+LATEX_HEADER: \usemintedstyle{solarized-light}
+#+LATEX_HEADER: \usepackage{float}
+#+LATEX_HEADER: \restylefloat{figure}
+
+#+name: figura 1
+#+begin_src octave :results file
+figure( 1, "visible", "off" );
+sombrero;
+
+print -dpng chart.png;
+ans = "chart.png";
+#+end_src
+
+#+RESULTS: figura 1
+#+ATTR_LATEX: :float wrap :width 0.38\textwidth :placement {c}{0.4\textwidth}
+[[file:chart.png]]

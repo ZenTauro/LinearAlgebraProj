@@ -1,0 +1,14 @@
+.DS_Store
+.idea
+*.log
+tmp/
+
+
+*
+**
+**/*
+
+!/*.png
+!/memoria.org
+!/.gitignore
+!/README.md
