@@ -16,22 +16,8 @@
 #+LATEX_HEADER: \usepackage{float}
 #+LATEX_HEADER: \restylefloat{figure}
 
-* Test de matlab
-#+name: figura 1
-#+begin_src octave :results file
-figure(1, "visible", "off");
-
-sombrero;
-
-print -dpng chart.png;
-ans = "chart.png";
-#+end_src
-
-#+RESULTS: figura 1
-#+ATTR_LATEX: :width 0.38\textwidth :placement {c}{0.4\textwidth}
-[[file:chart.png]]
-
 * Mínimos cuadrados
+** Base teorica
 Cuando tenemos una nube de puntos y queremos encontrar una recta que
 pase por todos ellos, tenemos que resolver el siguiente sistema.
 \begin{align}
@@ -129,7 +115,7 @@ x_1^m  & x_2^m  & x_3^m  & \cdots & x_n^m
 \vdots\\
 \alpha_m
 \end{pmatrix}
-=
+&=
 \begin{pmatrix}
 1      & 1      & 1      & \cdots & 1 \\
 x_1    & x_2    & x_3    & \cdots & x_n \\
@@ -142,4 +128,37 @@ y_2\\
 \vdots\\
 y_n
 \end{pmatrix}\\
+\begin{pmatrix}
+n    & \sum\limits_{i=1}^n x_i & \cdots & \sum\limits_{i=1}^n x_i^m \\
+\sum\limits_{i=1}^n x_i & \sum\limits_{i=1}^n x_i^2 & \cdots & \sum\limits_{i=1}^n x_i^{m+1} \\
+\vdots & \vdots & \ddots & \vdots \\
+\sum\limits_{i=1}^n x_i^m & \sum\limits_{i=1}^n x_i^{m+1} & \cdots & \sum\limits_{i=1}^n x_i^{m+n}
+\end{pmatrix}
+\begin{pmatrix}
+\alpha_1\\
+\alpha_2\\
+\vdots\\
+\alpha_m
+\end{pmatrix}
+&=
+\begin{pmatrix}
+\sum\limits_{i=1}^n y_i \\
+\vdots \\
+\sum\limits_{i=1}^n x_i^m y_i \\
+\end{pmatrix}
 \end{align}
+
+** Práctica
+#+name: figura 1
+#+begin_src octave :results file
+figure(1, "visible", "off");
+
+sombrero;
+
+print -dpng chart.png;
+ans = "chart.png";
+#+end_src
+
+#+RESULTS: figura 1
+#+ATTR_LATEX: :width 0.38\textwidth :placement {c}{0.4\textwidth}
+[[file:chart.png]]
