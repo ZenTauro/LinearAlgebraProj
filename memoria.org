@@ -1,20 +1,26 @@
 #+TITLE: Memoria
 #+AUTHOR: Pedro Gómez Martín
 
+#+LANGUAGE: spanish
+
 #+LATEX_CLASS_OPTIONS: [a4paper]
 #+LATEX_HEADER: \usepackage[a4paper, margin=2.5cm]{geometry}
 #+LATEX_HEADER: \usepackage[utf8]{inputenc}
 #+LATEX_HEADER: \usepackage[spanish]{babel}
 #+LATEX_HEADER: \usepackage[bottom]{footmisc}
 
+#+LATEX_HEADER: \usepackage{amsmath}
+
 #+LATEX_HEADER: \usepackage{minted}
 #+LATEX_HEADER: \usemintedstyle{solarized-light}
 #+LATEX_HEADER: \usepackage{float}
 #+LATEX_HEADER: \restylefloat{figure}
 
+* Test de matlab
 #+name: figura 1
 #+begin_src octave :results file
-figure( 1, "visible", "off" );
+figure(1, "visible", "off");
+
 sombrero;
 
 print -dpng chart.png;
@@ -22,5 +28,118 @@ ans = "chart.png";
 #+end_src
 
 #+RESULTS: figura 1
-#+ATTR_LATEX: :float wrap :width 0.38\textwidth :placement {c}{0.4\textwidth}
+#+ATTR_LATEX: :width 0.38\textwidth :placement {c}{0.4\textwidth}
 [[file:chart.png]]
+
+* Mínimos cuadrados
+Cuando tenemos una nube de puntos y queremos encontrar una recta que
+pase por todos ellos, tenemos que resolver el siguiente sistema.
+\begin{align}
+Ax = b
+\end{align}
+
+Siendo la matriz $A$ la matriz que representa la variable
+independiente de la curva
+
+\begin{align}
+A =
+\begin{pmatrix}
+1 & x_1 & x_1^2 & \cdots & x_1^m \\
+1 & x_2 & x_2^2 & \cdots & x_2^m \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+1 & x_n & x_n^2 & \cdots & x_n^m
+\end{pmatrix}
+\end{align}
+
+$x$ el vector que contiene los parámetros de la curva
+
+\begin{align}
+x =
+\begin{pmatrix}
+  \alpha_1 \\
+  \alpha_2 \\
+  \vdots \\
+  \alpha_m
+\end{pmatrix}
+\end{align}
+
+El vector $y$ las variables dependientes
+
+\begin{align}
+b =
+\begin{pmatrix}
+  y_1 \\
+  y_2 \\
+  \vdots \\
+  y_n
+\end{pmatrix}
+\end{align}
+
+
+\begin{align}
+\end{align}
+
+El problema con este método es que si queremos aproximar una curva, no
+lo podemos hacer ya que si no coinciden los puntos, no tenemos una
+solución para el sistema.
+
+Para poder dar con una solución que tenga la mínima distancia a todos
+los puntos, tendremos que encontrar un vector que esté en el espacio
+de columnas $C \left( A \right)$ generado por $A$. Entonces, haciendo
+una proyección del vector $\vec{b}$ sobre $C(A)$ tendremos un vector
+que nos permita resolver el sistema de mínimos cuadrados
+$Ax_0 = P_{C\left(A \right)} \left( b\right)$ por lo tanto
+$b - P_{C\left(A \right)} \left( b\right)$ es ortogonal a
+$C\left(A\right)$. Entonces, siendo $A_j$ la columna $j$ de $A$:
+
+\begin{align}
+    A_j \cdot \left( b - P_{C\left(A \right)} \left( b\right) \right) &= 0
+    \quad \forall A_j \in A, \quad j = 1, ..., m \\
+    A_j \cdot \left( b - Ax_0 \right) &= 0
+\end{align}
+
+Por lo tanto, en forma matricial sería:
+
+\begin{align}
+    A^{t} \cdot \left( b - Ax_0 \right) &= \vec{0}\\
+    A^{t} b - A^{t} Ax_0 &= \vec{0}\\
+    A^{t} Ax_0 &= A^{t} b\\
+    x_0 &= \left( A^t \cdot A \right) ^ {-1} \cdot A^t b
+\end{align}
+
+Esta última ecuación nos dará la solución de mínimos cuadrados, si
+expandimos las matrices, nos queda lo siguiente:
+
+\begin{align}
+\begin{pmatrix}
+1      & 1      & 1      & \cdots & 1 \\
+x_1    & x_2    & x_3    & \cdots & x_n \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+x_1^m  & x_2^m  & x_3^m  & \cdots & x_n^m
+\end{pmatrix}
+\begin{pmatrix}
+1 & x_1 & x_1^2 & \cdots & x_1^m \\
+1 & x_2 & x_2^2 & \cdots & x_2^m \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+1 & x_n & x_n^2 & \cdots & x_n^m
+\end{pmatrix}
+\begin{pmatrix}
+\alpha_1\\
+\alpha_2\\
+\vdots\\
+\alpha_m
+\end{pmatrix}
+=
+\begin{pmatrix}
+1      & 1      & 1      & \cdots & 1 \\
+x_1    & x_2    & x_3    & \cdots & x_n \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+x_1^m  & x_2^m  & x_3^m  & \cdots & x_n^m
+\end{pmatrix}
+\begin{pmatrix}
+y_1\\
+y_2\\
+\vdots\\
+y_n
+\end{pmatrix}\\
+\end{align}
