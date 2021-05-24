@@ -148,17 +148,86 @@ n    & \sum\limits_{i=1}^n x_i & \cdots & \sum\limits_{i=1}^n x_i^m \\
 \end{pmatrix}
 \end{align}
 
+El vector de residuos se define como el vector resultante de restar el
+punto por el que pasa la curva calculada al punto de los datos.
+Definimos $e$ como el vector de resíduos y $b^\prime$ como el vector de
+valores dados por la curva.
+
+\begin{align}
+e = b - b^\prime \ \ \ \ b^\prime = Ax_0
+\end{align}
+
+Por lo tanto, nos queda que el vector de residuos es:
+
+\begin{align}
+e = b - Ax_0
+\end{align}
+
+Por definición $e$ es $b$ menos la proyección de $b$ en el espacio de
+columnas de $A$. Por lo tanto, si multiplicamos $A^t \cdot e$, lo que
+obtenemos es $\vec{0}$ ya que $e$ es ortogonal a $C(A)$.
+
 ** Práctica
-#+name: figura 1
-#+begin_src octave :results file
+*** Cálculo de los parámetros de la parábola de regresión
+Con este código calculamos el vector $x_0$ y lo guardamos en la
+variable ans
+
+#+name: figura-1
+#+begin_src octave :exports both
 figure(1, "visible", "off");
 
-sombrero;
+x = [-3;-2;-1;0;1;2;3];
+b = [5; 3; 2; 1; 2; 3; 5]
 
-print -dpng chart.png;
-ans = "chart.png";
+A = [1,-3,9;1,-2,4;1,-1,1;1,0,0;1,1,1;1,2,4;1,3,9];
+B = transpose(A) * A;
+res = inverse(B) * transpose(A) * b;
+ans = res
 #+end_src
 
-#+RESULTS: figura 1
-#+ATTR_LATEX: :width 0.38\textwidth :placement {c}{0.4\textwidth}
-[[file:chart.png]]
+El valor de la variable ans es para este bloque de código es:
+
+#+RESULTS: figura-1
+|  1.380952380952381 |
+|                  0 |
+| 0.4047619047619048 |
+
+*** Cálculo de la proyección
+En este bloque de código calculamos la proyección de $b$ sobre el
+espacio de columnas de $A$:
+
+#+name: figura-2
+#+begin_src octave :noweb strip-export :exports both
+<<figura-1>>
+ans = A * res
+#+end_src
+
+#+RESULTS: figura-2
+| 5.023809523809524 |
+|                 3 |
+| 1.785714285714286 |
+| 1.380952380952381 |
+| 1.785714285714286 |
+|                 3 |
+| 5.023809523809524 |
+
+*** Cálculo del vector de residuos
+En esta parte hacemos el cálculo de $e$ por la traspuesta de $A$
+
+#+name: figura-3
+#+begin_src octave :noweb strip-export :exports both
+<<figura-1>>
+E = b - A * res;
+ans = transpose(A) * E
+#+end_src
+
+El valor de la variable ans es para este bloque de código es:
+
+#+RESULTS: figura-3
+| -6.661338147750939e-16 |
+|                      0 |
+|  8.881784197001252e-16 |
+
+Como podemos observar, el resultado de $A^te$ es $\vec{0}$ (en este
+caso muy cercano a cero por el error al multiplicar números en coma
+flotante)
