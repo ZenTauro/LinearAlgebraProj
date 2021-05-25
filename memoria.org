@@ -17,7 +17,13 @@
 #+LATEX_HEADER: \restylefloat{figure}
 
 * Mínimos cuadrados
-** Base teorica
+** Enunciado
+Se pide: hallar la parábola de regresión, la proyección (que denotamos
+por $p$) del vector $b$ sobre el espacio de columnas de $A$ y el vector
+de residuos $e$. Comprobar que si $A^t$ es la traspuesta de $A$ tenemos
+$A^t e = 0$.
+
+** Base teórica
 Cuando tenemos una nube de puntos y queremos encontrar una recta que
 pase por todos ellos, tenemos que resolver el siguiente sistema.
 \begin{align}
@@ -231,3 +237,42 @@ El valor de la variable ans es para este bloque de código es:
 Como podemos observar, el resultado de $A^te$ es $\vec{0}$ (en este
 caso muy cercano a cero por el error al multiplicar números en coma
 flotante)
+
+* Matriz de proyección
+** Enunciado
+Construir la matriz $P$ (estamos proyectando sobre el espacio de
+columnas de la matriz $A$, que tiene dimensión $r = 3$) y comprobar que
+el producto $Pb$ nos da la proyección $p$ hallada en el apartado (a).
+Hallar la traza de $P$ y explicar qué significa el resultado (esto
+quedará más claro con lo que veremos después…).
+
+** Base teórica
+Para construir la matriz de proyección primero tenemos que entender el
+significado y a partir de ahí construir la matriz.
+
+Podemos entender la proyección como la operación que utilizamos para
+"ver" la sombra que proyecta un vector sobre un subespacio. Si
+consideramos $S$ y $S^\perp$ como subespacios de $\mathbb{R}^m$ que
+cumplen las siguientes propiedades:
+
+1. $S \oplus S^\perp = \mathbb{R}^m$
+2. $S \cap S^\perp = \emptyset$
+
+Entonces podemos descomponer un vector $u$ de la siguiente forma
+$u = v + w$ estando $v \in S$ y $w \in S^\perp$, con esta
+descomposición definimos el resultado de la proyección del vector
+$u$ sobre el subespacio $S$ como el vector $v$.
+
+Con el producto escalar usual en $\mathbb{R}^m$
+($\left\langle x,y \right\rangle =  x^t y$) si vamos a proyectar
+$b \in \mathbb{R}^m$ sobre $S \subset \mathbb{R}^m$
+($\text{dim}(S) < m$) definimos la matriz $A \in \mathcal{M}_{mxn}$
+como la matriz que contiene en sus columnas los vectores de la base
+de $S$.
+
+Entonces, la proyección de $b$ sobre $\mathcal{C}(A)$ será $p=Ax$, para
+$x \in \mathbb{R}^n$ por lo tanto $b - p = b - Ax$ debe de ser
+ortogonal a $\mathcal{C}(A)$, lo cual implica
+$A^t\left(b - Ax\right) = \vec{0} \Rightarrow A^t b = A^t Ax$
+
+** Práctica
