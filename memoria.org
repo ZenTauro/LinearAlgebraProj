@@ -179,7 +179,7 @@ Con este código calculamos el vector $x_0$ y lo guardamos en la
 variable ans
 
 #+name: figura-1
-#+begin_src octave :exports both
+#+begin_src octave :exports both :cache yes
 pkg load symbolic;
 figure(1, "visible", "off");
 
@@ -204,7 +204,7 @@ En este bloque de código calculamos la proyección de $b$ sobre el
 espacio de columnas de $A$:
 
 #+name: figura-2
-#+begin_src octave :noweb strip-export :exports both
+#+begin_src octave :noweb strip-export :exports both :cache yes
 <<figura-1>>
 ans = A * res
 #+end_src
@@ -222,7 +222,7 @@ ans = A * res
 En esta parte hacemos el cálculo de $e$ por la traspuesta de $A$
 
 #+name: figura-3
-#+begin_src octave :noweb strip-export :exports both
+#+begin_src octave :noweb strip-export :exports both :cache yes
 <<figura-1>>
 E = b - A * res;
 ans = transpose(A) * E
@@ -299,7 +299,7 @@ mostrarla en un formato más legible utilizamos ~eval~ y ~mat2str~ para
 redondear todos los números de la matriz.
 
 #+name: figura-4
-#+begin_src octave :noweb strip-export :exports both
+#+begin_src octave :noweb strip-export :exports both :cache yes
 <<figura-1>>
 Aa = orth(A);
 L = inverse(transpose(Aa) * Aa) * transpose(Aa);
@@ -323,7 +323,7 @@ Para obtener la proyección de $b$ sobre $S$ tenemos que multiplicar
 por la matriz que hemos calculado antes:
 
 #+name: figura-5
-#+begin_src octave :noweb strip-export :exports both
+#+begin_src octave :noweb strip-export :exports both :cache yes
 <<figura-4>>
 ans = P * b
 #+end_src
@@ -344,9 +344,9 @@ Para obtener la traza de $P$ tenemos primero que extraer la diagonal y
 después sumar todos los elementos:
 
 #+name: figura-6
-#+begin_src octave :noweb strip-export :exports both
+#+begin_src octave :noweb strip-export :exports both :cache yes
 <<figura-4>>
-ans = sum(diag(A))
+ans = trace(A)
 #+end_src
 
 Aquí podemos ver que la traza es:
