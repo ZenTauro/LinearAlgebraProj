@@ -180,6 +180,7 @@ variable ans
 
 #+name: figura-1
 #+begin_src octave :exports both
+pkg load symbolic;
 figure(1, "visible", "off");
 
 x = [-3;-2;-1;0;1;2;3];
@@ -266,13 +267,89 @@ $u$ sobre el subespacio $S$ como el vector $v$.
 Con el producto escalar usual en $\mathbb{R}^m$
 ($\left\langle x,y \right\rangle =  x^t y$) si vamos a proyectar
 $b \in \mathbb{R}^m$ sobre $S \subset \mathbb{R}^m$
-($\text{dim}(S) < m$) definimos la matriz $A \in \mathcal{M}_{mxn}$
-como la matriz que contiene en sus columnas los vectores de la base
-de $S$.
+($\text{dim}(S) < m$) definimos la matriz $A \in \mathcal{M}_{m \times n}$
+como la matriz que contiene en sus columnas los vectores que conforman
+la base de $S$.
 
 Entonces, la proyección de $b$ sobre $\mathcal{C}(A)$ será $p=Ax$, para
 $x \in \mathbb{R}^n$ por lo tanto $b - p = b - Ax$ debe de ser
-ortogonal a $\mathcal{C}(A)$, lo cual implica
-$A^t\left(b - Ax\right) = \vec{0} \Rightarrow A^t b = A^t Ax$
+ortogonal a $\mathcal{C}(A)$, lo cual implica:
+
+\begin{align}
+A^t\left(b - Ax\right) &= \vec{0}\\
+A^t b &= A^t Ax\\
+x &= (A^tA)^{-1}A^t b
+\end{align}
+
+Si $x$ resuelve el sistema anterior, entonces la proyección viene dada
+por $p=Ax$ y la matriz de proyección $P$ es $A(A^tA)^{-1}A^t$.
+
+\begin{align}
+p &= Ax\\
+p &= A \cdot (A^t A)^{-1}A^t b\\
+p &= P \cdot b
+\end{align}
 
 ** Práctica
+*** Cálculo de la matriz $P$
+La función ~orth~ nos permite encontrar la base ortonormal del espacio
+de columnas de una matriz. Para encontrar la matriz $P$ simplemente
+implementamos la ecuación hallada en la figura anterior y para poder
+mostrarla en un formato más legible utilizamos ~eval~ y ~mat2str~ para
+redondear todos los números de la matriz.
+
+#+name: figura-4
+#+begin_src octave :noweb strip-export :exports both
+<<figura-1>>
+Aa = orth(A);
+L = inverse(transpose(Aa) * Aa) * transpose(Aa);
+P = Aa * L;
+ans = eval(mat2str(P, 3))
+#+end_src
+
+Aquí podemos ver la matriz $P$:
+
+#+RESULTS: figura-4
+|   0.762 |    0.357 | 0.0714 | -0.0952 | -0.143 |  -0.0714 |   0.119 |
+|   0.357 |    0.286 |  0.214 |   0.143 | 0.0714 | 6.25e-17 | -0.0714 |
+|  0.0714 |    0.214 |  0.286 |   0.286 |  0.214 |   0.0714 |  -0.143 |
+| -0.0952 |    0.143 |  0.286 |   0.333 |  0.286 |    0.143 | -0.0952 |
+|  -0.143 |   0.0714 |  0.214 |   0.286 |  0.286 |    0.214 |  0.0714 |
+| -0.0714 | 8.33e-17 | 0.0714 |   0.143 |  0.214 |    0.286 |   0.357 |
+|   0.119 |  -0.0714 | -0.143 | -0.0952 | 0.0714 |    0.357 |   0.762 |
+
+*** Cálculo de la proyección de $b$
+Para obtener la proyección de $b$ sobre $S$ tenemos que multiplicar
+por la matriz que hemos calculado antes:
+
+#+name: figura-5
+#+begin_src octave :noweb strip-export :exports both
+<<figura-4>>
+ans = P * b
+#+end_src
+
+Como podemos observar, el resultado coincide:
+
+#+RESULTS: figura-5
+| 5.023809523809526 |
+|                 3 |
+| 1.785714285714286 |
+| 1.380952380952382 |
+| 1.785714285714286 |
+|                 3 |
+| 5.023809523809524 |
+
+*** Cálculo de la traza de $P$
+Para obtener la traza de $P$ tenemos primero que extraer la diagonal y
+después sumar todos los elementos:
+
+#+name: figura-6
+#+begin_src octave :noweb strip-export :exports both
+<<figura-4>>
+ans = sum(diag(A))
+#+end_src
+
+Aquí podemos ver que la traza es:
+
+#+RESULTS: figura-6
+: 0
