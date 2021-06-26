@@ -444,4 +444,84 @@ ans = m3
 
 Una vez tenemos la matriz $M_3$, que es la matriz $A$ a la que le
 hemos aplicado la eliminación gaussiana, procedemos a resolver el
-sistema $M_3 \cdot x = \vec{0}$
+sistema $M_3 \cdot x = \vec{0}$:
+
+#+name: figura-10
+#+begin_src octave :noweb strip-export :exports both :cache yes
+<<figura-9>>
+A = horzcat(m3(:,1), m3(:,2), m3(:,3))
+X0 = [linsolve(A, m3(:,4)); 1; 0; 0; 0]
+ans = X0
+#+end_src
+
+#+RESULTS[58c4fb606f79442788b47fbedc1cf771826b5377]: figura-10
+|  1 |
+| -3 |
+|  3 |
+|  1 |
+|  0 |
+|  0 |
+|  0 |
+
+#+name: figura-11
+#+begin_src octave :noweb strip-export :exports both :cache yes
+<<figura-9>>
+A = horzcat(m3(:,1), m3(:,2), m3(:,3))
+X1 = [linsolve(A, m3(:,5)); 0; 1; 0; 0]
+ans = X1
+#+end_src
+
+#+RESULTS[09a36cc9812c315136e516e48aa4a452239634b7]: figura-11
+|  3 |
+| -8 |
+|  6 |
+|  0 |
+|  1 |
+|  0 |
+|  0 |
+
+#+name: figura-12
+#+begin_src octave :noweb strip-export :exports both :cache yes
+<<figura-9>>
+A = horzcat(m3(:,1), m3(:,2), m3(:,3))
+X2 = [linsolve(A, m3(:,6)); 0; 0; 1; 0]
+ans = X2
+#+end_src
+
+#+RESULTS[2bbbd253b2bb3e3e4c5eaa725faa94659664f7cc]: figura-12
+|   6 |
+| -15 |
+|  10 |
+|   0 |
+|   0 |
+|   1 |
+|   0 |
+
+#+name: figura-13
+#+begin_src octave :noweb strip-export :exports both :cache yes
+<<figura-9>>
+A = horzcat(m3(:,1), m3(:,2), m3(:,3))
+X3 = [linsolve(A, m3(:,7)); 0; 0; 0; 1]
+ans = X3
+#+end_src
+
+Por lo tanto, el subespacio $U^{\perp}$ está compuesto por los
+vectores que conforman la siguiente matriz:
+
+#+name: figura-13
+#+begin_src octave :noweb strip-export :exports both :cache yes
+<<figura-10>>
+<<figura-11>>
+<<figura-12>>
+<<figura-13>>
+ans = horzcat(X0, X1, X2, X3)
+#+end_src
+
+#+RESULTS[4fd2ca2242592dd5c5c0ef772e5082ef29569173]: figura-13
+|  1 |  3 |   6 |  10 |
+| -3 | -8 | -15 | -24 |
+|  3 |  6 |  10 |  15 |
+|  1 |  0 |   0 |   0 |
+|  0 |  1 |   0 |   0 |
+|  0 |  0 |   1 |   0 |
+|  0 |  0 |   0 |   1 |
