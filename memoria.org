@@ -525,3 +525,23 @@ ans = horzcat(X0, X1, X2, X3)
 |  0 |  1 |   0 |   0 |
 |  0 |  0 |   1 |   0 |
 |  0 |  0 |   0 |   1 |
+
+* Aplicación lineal
+** Enunciado
+Consideramos la aplicación lineal $f$ de $E$ en $E$ tal que a un
+vector $b$ de $E$ le hace corresponder su proyección sobre $U$
+(el espacio de columnas de $A$). La matriz de proyección $P$ es la
+matriz de la aplicación lineal $f$ respecto a la base canónica de $E$.
+La imagen de $b$ es $P_b$.  Ahora pedimos:
+
+Hallar $M$, la matriz coordenada de esta aplicación lineal respecto a
+la base
+\begin{align*}
+B = \left\lbrace v_1,v_2,v_3, w_1, w_2, w_3, w_4 \right\rbrace
+\end{align*}
+
+Una vez hallada $M$, se pide usar $M$ para hallar $f(b_2)$, es decir la
+imagen del vector
+\begin{align*}
+b2 = \left\lbrace -9, 64, -33, 5, 0, 5, 10 \right\rbrace
+\end{align*}
