@@ -72,7 +72,7 @@ b =
 \end{align}
 
 El problema con este método es que si queremos aproximar una curva, no
-lo podemos hacer ya que si no coinciden los puntos, no tenemos una
+lo podemos hacer, ya que si no coinciden los puntos, no tenemos una
 solución para el sistema.
 
 Para poder dar con una solución que tenga la mínima distancia a todos
@@ -156,7 +156,7 @@ n    & \sum\limits_{i=1}^n x_i & \cdots & \sum\limits_{i=1}^n x_i^m \\
 
 El vector de residuos se define como el vector resultante de restar el
 punto por el que pasa la curva calculada al punto de los datos.
-Definimos $e$ como el vector de resíduos y $b^\prime$ como el vector de
+Definimos $e$ como el vector de residuos y $b^\prime$ como el vector de
 valores dados por la curva.
 
 \begin{align}
@@ -171,7 +171,7 @@ e = b - Ax_0
 
 Por definición $e$ es $b$ menos la proyección de $b$ en el espacio de
 columnas de $A$. Por lo tanto, si multiplicamos $A^t \cdot e$, lo que
-obtenemos es $\vec{0}$ ya que $e$ es ortogonal a $C(A)$.
+obtenemos es $\vec{0}$, ya que $e$ es ortogonal a $C(A)$.
 
 ** Práctica
 *** Cálculo de los parámetros de la parábola de regresión
@@ -390,7 +390,7 @@ componen $U$ y sacamos de ahí el espacio nulo, obtendremos
 $U^{\perp}$.
 
 ** Práctica
-Para hallar el complemento orgonal del subespacio plasmado en la
+Para hallar el complemento ortogonal del subespacio plasmado en la
 matriz $A$, primero tenemos que realizar la eliminación gaussiana en
 la traspuesta de dicha matriz:
 
