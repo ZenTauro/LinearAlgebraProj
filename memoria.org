@@ -16,6 +16,7 @@
 #+LATEX_HEADER: \usepackage{float}
 #+LATEX_HEADER: \restylefloat{figure}
 
+\pagebreak
 * Mínimos cuadrados
 ** Enunciado
 Se pide: hallar la parábola de regresión, la proyección (que denotamos
@@ -239,6 +240,8 @@ Como podemos observar, el resultado de $A^te$ es $\vec{0}$ (en este
 caso muy cercano a cero por el error al multiplicar números en coma
 flotante)
 
+
+\pagebreak
 * Matriz de proyección
 ** Enunciado
 Construir la matriz $P$ (estamos proyectando sobre el espacio de
@@ -357,6 +360,7 @@ Aquí podemos ver que la traza es:
 La traza de la matriz de proyección es 3 dado que la base del
 subespacio tiene rango 3
 
+\pagebreak
 * Complemento ortogonal
 ** Enunciado
 Hallar (mediante la eliminación gaussiana, es decir con las
@@ -526,6 +530,7 @@ ans = horzcat(X0, X1, X2, X3)
 |  0 |  0 |   1 |   0 |
 |  0 |  0 |   0 |   1 |
 
+\pagebreak
 * Aplicación lineal
 ** Enunciado
 Consideramos la aplicación lineal $f$ de $E$ en $E$ tal que a un
