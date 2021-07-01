@@ -16,6 +16,9 @@
 #+LATEX_HEADER: \usepackage{float}
 #+LATEX_HEADER: \restylefloat{figure}
 
+#+LATEX_HEADER: \usepackage{endnotes}
+#+LATEX_HEADER: \renewcommand{\footnote}{\endnote}
+
 \pagebreak
 * Mínimos cuadrados
 ** Enunciado
@@ -548,5 +551,90 @@ B = \left\lbrace v_1,v_2,v_3, w_1, w_2, w_3, w_4 \right\rbrace
 Una vez hallada $M$, se pide usar $M$ para hallar $f(b_2)$, es decir la
 imagen del vector
 \begin{align*}
-b2 = \left\lbrace -9, 64, -33, 5, 0, 5, 10 \right\rbrace
+b_2 =
+\begin{pmatrix}
+-9\\ 64\\ -33\\ 5\\ 0\\ 5\\ 10
+\end{pmatrix}
 \end{align*}
+
+** Base teórica
+Una aplicación lineal entre dos espacios, por definición, es lineal.
+Si recordamos lo que implica la linealidad podremos encontrar el
+método para hallar la matriz que nos sirva para pasar un vector de
+un espacio al otro obteniendo el mismo resultado que si se hiciera la
+aplicación lineal a mano.
+
+Si tenemos dos espacios $E$ y $F$, una aplicación lineal
+$f:E \rightarrow F$, $a$ y $b$ son vectores en el espacio $E$ y
+$\lambda$ un escalar[fn:1]. Se cumplen las siguientes propiedades:
+\begin{align}
+&f(a + b) = f(a) + f(b)\\
+&f(\lambda a) = \lambda f(a)
+\end{align}
+
+Entonces, si $B = \left\lbrace u_1, u_2, \cdots , u_n \right\rbrace$
+es la base canónica del espacio $E$, se cumple lo siguiente:
+\begin{align}
+a =
+\begin{pmatrix}
+x_1\\
+x_2\\
+\vdots\\
+x_n\\
+\end{pmatrix}
+= x_1 u_1 + x_2 u_x + \cdots x_n u_n
+\end{align}
+
+Como $f$ es lineal:
+\begin{align}
+f(a) &= f(x_1 u_1 + x_2 u_2 + \cdots + x_n u_n)\\
+     &= x_1 f(u_1) + x_2 f(u_2) + \cdots + x_n f(u_n)
+\end{align}
+
+A partir de esta conclusión, podemos extraer la matriz $A$:
+\begin{align}
+A = \left( f(u_1) | f(u_2) | \cdots | f(u_n) \right)
+\end{align}
+
+Con esta matriz $A$ vemos que:
+\begin{align}
+A \cdot a =
+\end{align}
+
+Por lo tanto, podemos ver con esto, que toda aplicación lineal conduce
+a una matriz
+
+\pagebreak
+* Notas del texto
+\theendnotes
+
+[fn:1]Para ser más correcto, $E$ y $F$ se definen como espacios
+vectoriales sobre el cuerpo $K$, esto significa que los vectores de
+$E$ y $F$ están formados por los elementos que componen $K$ y que en
+$K$ existen al menos dos operaciones $+$ y $\cdot$ (adición y
+multiplicación) y se cumplen las siguientes propiedades:
+1. $K$ es cerrado para $+$ y para $\cdot$
+   a. $(a + b) \in K\ \ \forall a, b \in K$
+   b. $(a \cdot b) \in K\ \ \forall a, b \in K$
+2. La adición y multiplicación son asociativas en $K$:
+   a. $(a + b) + c = a + (b + b)\ \ \forall a, b, c \in K$
+   b. $(a \cdot b) \cdot c = a \cdot (b \cdot b)\ \ \forall a, b, c \in K$
+3. La adición y multiplicación son conmutativas en $K$:
+   a. $a + b = b + a\ \ \forall a, b \in K$
+   b. $a \cdot b = b \cdot a\ \ \forall a, b \in K$
+4. Existe un elemento neutro tanto para la adición como para la
+   multiplicación:
+   a. Para la adición es el $0$: $a + 0 = a\ \ \forall a \in K$
+   b. Para la multiplicación es el $1$: $a \cdot 1 = a\ \ \forall a \in K$
+5. Existe un inverso en cada operación que al operar el elemento con
+   su inverso da igual al elemento neutro, para la adición se llama
+   opuesto y para la multiplicación inverso:
+   a. $a + (-a) = 0\ \ \forall a \in K$
+   b. $a \cdot a^{-1} = 1\ \ \forall a \neq 0 \in K$
+6. La multiplicación es distributiva sobre la adición
+   a. $a \cdot (b + c) = (a \cdot b) + (a \cdot c)\ \ \forall a, b, c \in K$
+7. El inverso de una multiplicación es igual a la multiplicación de
+   los inversos
+   a. $(a \cdot b)^{-1} = a^{-1} \cdot b^{-1}\ \ \forall a,b \in K$
+8. $-a = (-1) \cdot a\ \ \forall a \in K$
+9. $a \cdot 0 = 0\ \ \forall a \in K$
