@@ -19,6 +19,8 @@
 #+LATEX_HEADER: \usepackage{endnotes}
 #+LATEX_HEADER: \renewcommand{\footnote}{\endnote}
 
+\setlength{\parskip}{0.5em}
+
 \pagebreak
 * Mínimos cuadrados
 ** Enunciado
@@ -515,7 +517,7 @@ ans = X3
 Por lo tanto, el subespacio $U^{\perp}$ está compuesto por los
 vectores que conforman la siguiente matriz:
 
-#+name: figura-13
+#+name: figura-14
 #+begin_src octave :noweb strip-export :exports both :cache yes
 <<figura-10>>
 <<figura-11>>
@@ -524,7 +526,7 @@ vectores que conforman la siguiente matriz:
 ans = horzcat(X0, X1, X2, X3)
 #+end_src
 
-#+RESULTS[4fd2ca2242592dd5c5c0ef772e5082ef29569173]: figura-13
+#+RESULTS[4fd2ca2242592dd5c5c0ef772e5082ef29569173]: figura-14
 |  1 |  3 |   6 |  10 |
 | -3 | -8 | -15 | -24 |
 |  3 |  6 |  10 |  15 |
@@ -558,6 +560,7 @@ b_2 =
 \end{align*}
 
 ** Base teórica
+*** Definición y estudio del concepto de Aplicación Lineal
 Una aplicación lineal entre dos espacios, por definición, es lineal.
 Si recordamos lo que implica la linealidad podremos encontrar el
 método para hallar la matriz que nos sirva para pasar un vector de
@@ -572,8 +575,10 @@ $\lambda$ un escalar[fn:1]. Se cumplen las siguientes propiedades:
 &f(\lambda a) = \lambda f(a)
 \end{align}
 
-Entonces, si $B = \left\lbrace u_1, u_2, \cdots , u_n \right\rbrace$
-es la base canónica del espacio $E$, se cumple lo siguiente:
+Entonces, si $B_E = \left\lbrace u_1, u_2, \cdots , u_n \right\rbrace$
+es una base del espacio $E$ y
+$B_F = \left\lbrace v_1, v_2, \cdots, v_m \right\rbrace$ es una base de
+$F$, se cumple lo siguiente:
 \begin{align}
 a =
 \begin{pmatrix}
@@ -584,6 +589,10 @@ x_n\\
 \end{pmatrix}
 = x_1 u_1 + x_2 u_x + \cdots x_n u_n
 \end{align}
+
+Esto es expresar el vector $a$ como combinación lineal de los vectores
+que componen $B_E$ o, dicho de otra forma, las coordenadas del vector
+$a$ sobre la base $B_E$.
 
 Como $f$ es lineal:
 \begin{align}
@@ -596,13 +605,116 @@ A partir de esta conclusión, podemos extraer la matriz $A$:
 A = \left( f(u_1) | f(u_2) | \cdots | f(u_n) \right)
 \end{align}
 
+De la misma forma que hemos expresado $a$ como suma de la
+multiplicación de un escalar por cada uno de los vectores que componen
+la base $B_E$, podemos expresar $f(a)$
+\begin{align}
+f(a) =
+\begin{pmatrix}
+y_1\\
+y_2\\
+\vdots\\
+y_m\\
+\end{pmatrix}
+= y_1 v_1 + y_2 v_2 + \cdots x_m v_m
+\end{align}
+
+Así podemos plantear el siguiente sistema:
+\begin{align}
+\begin{pmatrix}
+y_1\\
+y_2\\
+\vdots\\
+y_m\\
+\end{pmatrix}
+=
+A \cdot
+\begin{pmatrix}
+x_1\\
+x_2\\
+\vdots\\
+x_n\\
+\end{pmatrix}
+\end{align}
+
 Con esta matriz $A$ vemos que:
 \begin{align}
-A \cdot a =
+A \cdot a = f(a)
 \end{align}
 
 Por lo tanto, podemos ver con esto, que toda aplicación lineal conduce
-a una matriz
+a una matriz.
+
+*** Cambio de base
+Para construir la matriz por la que se pregunta, tendremos que razonar
+de que base a que base transforma la matriz ligada a la aplicación
+lineal $P$.
+
+Esta matriz nos da el vector respecto a la base canónica, por lo
+tanto, si queremos usarla para pasar un vector desde la base $B$,
+tendríamos primero que pasar dicho vector a la base canónica. Y si
+luego queremos el resultado sobre la base $B$, tendremos que pasar
+dicho resultado a esta base. Esto queda capturado en la siguiente
+ecuación, donde $B_C$ es la base canónica y $M$ la matriz de cambio de
+base con el subíndice indicando las bases de procedencia y destino:
+\begin{align}
+M_{B_C \rightarrow B} \cdot P \cdot M_{B \rightarrow B_C} \cdot \vec{v}
+\end{align}
+
+Sabemos que la matriz de cambio de base de la canónica a la otra base
+es igual a la matriz en la que sus columnas son los vectores que
+componen esa base. Y para hacer el cambio inverso, tendremos que usar
+la inversa de esa matriz.
+
+También, hemos visto que la matriz ligada a una aplicación lineal se
+compone de la imagen de los vectores de la base. Como ya tenemos la
+matriz $P$ y $U \oplus U^{\perp}$, vamos a calcular $M$ a partir de
+estas matrices.
+\begin{align}
+M = B \cdot P \cdot B^{-1}
+\end{align}
+
+** Práctica
+Para hallar la matriz simplemente ejecutamos el código similar al
+descrito anteriormente.
+
+#+name: figura-15
+#+begin_src octave :noweb strip-export :exports both :cache yes
+<<figura-4>>
+<<figura-14>>
+<<figura-1>>
+M1 = horzcat(A, X0, X1, X2, X3)
+M = eval(mat2str(M1 * P * inv(M1), 3))
+ans = M
+#+end_src
+
+#+RESULTS[ffe0b8a6739928b8481dd751fd57eaa0e0bfac64]: figura-15
+|  -1.39 |   0.905 |   2.89 |  -1.43 |  -1.23 |  -0.357 |    1.18 |
+|  -1.34 |    1.31 |   1.32 |  -1.06 | -0.892 |  -0.244 |   0.884 |
+| -0.182 | -0.0734 |  0.999 | -0.274 | -0.251 | -0.0734 |   0.259 |
+| 0.0893 | -0.0952 | -0.204 |  0.476 |  0.339 |   0.151 | -0.0893 |
+| -0.101 |  0.0317 |  0.113 |  0.476 |  0.308 |   0.167 |  0.0536 |
+| -0.646 |   0.415 |   1.05 |  0.226 | 0.0466 |   0.129 |   0.473 |
+|  -1.54 |    1.05 |    2.6 | -0.274 | -0.443 |  0.0377 |    1.17 |
+
+Para hallar el vector que nos pide simplemente tenemos que multiplicar
+el vector por $M$:
+
+#+name: figura-16
+#+begin_src octave :noweb strip-export :exports both :cache yes
+<<figura-15>>
+b2 = [-9; 64; -33; 5; 0; 5; 10]
+ans = M * b2
+#+end_src
+
+#+RESULTS[bc3cb4173440fc281a7469e4227bb7436c6d6fd0]: figura-16
+|            -22.075 |
+|  54.66000000000001 |
+| -35.17359999999999 |
+|  2.077499999999999 |
+|             2.9598 |
+|  4.228999999999997 |
+|  5.778500000000005 |
 
 \pagebreak
 * Notas del texto
