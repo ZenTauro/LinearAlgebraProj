@@ -717,6 +717,108 @@ ans = M * b2
 |  5.778500000000005 |
 
 \pagebreak
+* Diagonalización de matrices
+** Enunciado
+Hallar una matriz invertible $S$ tal que (siendo $S^{-1}$ la inversa
+de $S$) se tenga.
+
+\begin{align}
+S^{-1} P S = M
+\end{align}
+
+(El cálculo de $S^{-1}$ (la inversa de $S$) y el producto puede
+hacerse con MATLAB).
+
+Los valores propios de la matriz de proyección P son los elementos diagonales de M.
+Relacionar este hecho con los vectores propios de P (y explicar por qué es natural que esos
+vectores sean vectores propios).
+
+** Teoría
+Para diagonalizar matrices tenemos que entender el concepto de
+diagonalización y para ello, también, el significado de autovalores y
+autovectores.
+
+*** Autovectores
+Los autovectores de una matriz son aquellos vectores que cumplen la
+característica de que cuando se multiplican por esa matriz, es como si
+se hubiera multiplicado el vector por un escalar. O puesto en forma de
+ecuación, donde $A$ es una matriz, $x$ un vector y $\lambda$ un
+escalar:
+\begin{align}
+A \vec{x} = \lambda \vec{x}
+\end{align}
+
+En esta ecuación $x$ es un autovector y $\lambda$ un autovalor. Para
+encontrar los autovectores y autovalores asociados a la matriz $A$,
+tendremos que reescribir la ecuación de una forma que nos resulte más
+fácil hacer cálculos:
+\begin{align}
+A \vec{x} &= \lambda \vec{x}\\
+A \vec{x} - \lambda \vec{x} &= 0 \\
+\left( A - \lambda I \right) \vec{x} &= 0
+\end{align}
+
+En esta ecuación $I$ es la matriz identidad del mismo orden que $A$,
+recordamos que $\vec{x} = I \vec{x}$ y por lo tanto
+$\lambda \vec{x} = \left( \lambda I \right) \vec{x}$. De la ecuación
+anterior podemos extraer:
+\begin{align}
+\label{eigenvectproperties1}
+\vec{x} \in \mathcal{N} \left( A - \lambda I \right)\\
+\label{eigenvectproperties2}
+\mathcal{N} \left( A - \lambda I \right) \neq \left\lbrace 0 \right\rbrace
+\end{align}
+
+Además de eso, $x \neq 0$, ya que cualquier matriz por $0$ siempre es
+$0$.
+
+Para que se cumpla la ecuación \ref{eigenvectproperties2}, se tiene
+que cumplir que $A - \lambda I$ sea una matriz con una de las filas
+linealmente dependiente de las otras, lo cual implica que su
+determinante sea $0$, por lo tanto, para encontrar los autovalores
+tendremos que resolver la ecuación de grado $n$ que resulte de la
+siguiente formula:
+\begin{align}
+\text{det}\left( A - \lambda I \right) = 0
+\end{align}
+
+Luego, para hallar los autovectores, tendremos que operar para hallar
+la solución al sistema dado por
+$\left( A - \lambda I \right) \vec{x} = 0$.
+
+*** Descomposición diagonal
+Si queremos descomponer la matriz $M$ con su diagonal compuesta por
+los autovalores de $P$ y el resto 0, de la siguiente forma:
+\begin{align}
+M = S^{-1} P S
+\end{align}
+Tendremos que ver la relación que guarda $S$ con $P$ y $M$.
+
+De lo visto anteriormente sabemos que el autovector de una matriz
+multiplicado por su autovalor es igual a el autovector multiplicando
+a la matriz. Entonces, siendo $v_1$ a $v_n$ los autovectores de la
+matriz $P$ y $\lambda_1$ a $\lambda_n$ sus respectivos autovalores,
+podemos ver lo siguiente:
+\begin{align}
+P \cdot \left( v_1 | v_2 | \cdots | v_n \right) &=\\
+\left( P \cdot v_1 | P \cdot v_2 | \cdots | P \cdot v_n \right) &=\\
+\left( \lambda_1 \cdot v_1 | \lambda_2 \cdot v_2 | \cdots | \lambda_n \cdot v_n \right) &=\\
+&= \left( v_1 | v_2 | \cdots | v_n \right)
+\begin{pmatrix}
+\lambda_1 & \          & \      & \         \\
+\         & \lambda_2  & \      & \         \\
+\         & \          & \ddots & \         \\
+\         & \          & \      & \lambda_n
+\end{pmatrix}
+\end{align}
+Por lo tanto, de aquí podemos extraer lo siguiente:
+\begin{align}
+P \cdot S &= S \cdot M \\
+S^{-1} \cdot P \cdot S &= M
+\end{align}
+Donde $S = P \cdot \left( v_1 | v_2 | \cdots | v_n \right)$
+
+\pagebreak
 * Notas del texto
 \theendnotes
 
