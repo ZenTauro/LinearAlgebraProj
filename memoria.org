@@ -102,6 +102,7 @@ Por lo tanto, en forma matricial sería:
     A^{t} \cdot \left( b - Ax_0 \right) &= \vec{0}\\
     A^{t} b - A^{t} Ax_0 &= \vec{0}\\
     A^{t} Ax_0 &= A^{t} b\\
+\label{squaremin}
     x_0 &= \left( A^t \cdot A \right) ^ {-1} \cdot A^t b
 \end{align}
 
@@ -670,7 +671,7 @@ También, hemos visto que la matriz ligada a una aplicación lineal se
 compone de la imagen de los vectores de la base. Como ya tenemos la
 matriz $P$ y $U \oplus U^{\perp}$, vamos a calcular $M$ a partir de
 estas matrices.
-\begin{align}
+\begin{align}\label{basechange}
 M = B \cdot P \cdot B^{-1}
 \end{align}
 
@@ -817,6 +818,215 @@ P \cdot S &= S \cdot M \\
 S^{-1} \cdot P \cdot S &= M
 \end{align}
 Donde $S = P \cdot \left( v_1 | v_2 | \cdots | v_n \right)$
+
+Podemos ver con esto que $M$ representa la misma aplicación lineal
+que representa $P$, pero sobre una base distinta, esto es más claro
+cuando la comparamos con el resultado que obtuvimos en la ecuación
+\ref{basechange}.
+
+** Práctica
+Con las conclusiones extraidas procedemos a encontrar los autovalores
+de la matriz $P$.
+#+name: figura-17
+#+begin_src octave :noweb strip-export :exports both :cache yes
+<<figura-15>>
+ans = P
+#+end_src
+
+#+RESULTS[b86e71b5b3a874eecbdbeba4bfa968a56c2c3366]: figura-17
+|   0.7619047619047621 |    0.3571428571428571 | 0.07142857142857142 | -0.09523809523809526 | -0.1428571428571429 |  -0.07142857142857138 |   0.1190476190476191 |
+|   0.3571428571428571 |    0.2857142857142857 |  0.2142857142857144 |    0.142857142857143 | 0.07142857142857151 | 6.245004513516506e-17 | -0.07142857142857147 |
+|  0.07142857142857142 |    0.2142857142857144 |  0.2857142857142858 |   0.2857142857142858 |  0.2142857142857144 |   0.07142857142857147 |  -0.1428571428571429 |
+| -0.09523809523809527 |     0.142857142857143 |  0.2857142857142858 |   0.3333333333333335 |  0.2857142857142858 |    0.1428571428571429 | -0.09523809523809527 |
+|  -0.1428571428571429 |   0.07142857142857151 |  0.2142857142857144 |   0.2857142857142858 |  0.2857142857142858 |    0.2142857142857143 |  0.07142857142857138 |
+| -0.07142857142857138 | 8.326672684688674e-17 | 0.07142857142857148 |   0.1428571428571429 |  0.2142857142857143 |    0.2857142857142857 |   0.3571428571428571 |
+|   0.1190476190476191 |  -0.07142857142857145 | -0.1428571428571428 | -0.09523809523809526 | 0.07142857142857142 |     0.357142857142857 |   0.7619047619047619 |
+
+\pagebreak
+* Subespacio $\text{Ker}(F)$
+** Enunciado
+Hallar una base y la dimensión del subespacio $\text{Ker}(f)$ (núcleo
+de la aplicación lineal $f$)
+
+** Teoría
+El núcleo de la aplicación lineal $f$ es el subespacio que se da al
+calcular el espacio nulo de la matriz asociada a la aplicación. Por lo
+tanto, podemos calcular fácilmente este subespacio hallando las
+soluciones al sistema homogéneo.
+\begin{align}
+Px=\vec{0}
+\end{align}
+
+** Práctica
+Podemos calcular una base de este subespacio con la función ~null~ de
+MATLAB:
+#+name: figura-18
+#+begin_src octave :noweb strip-export :exports both :cache yes
+<<figura-4>>
+ans = null(P)
+#+end_src
+
+#+RESULTS[1d142091a74acc20cd0a8f4cecc152a060bfd189]: figura-18
+|  -0.1377491713487849 |   -0.1730823156848629 | -0.0305567977140812 |   0.4338538901503446 |
+| -0.05811810969254662 | -0.008912290461406491 | 0.05950648540039829 |  -0.8410038935019881 |
+|   0.7500305059015109 |    0.3162071610244604 |  0.0956956256784585 |   0.2063863683621036 |
+|  -0.5244927703278465 |    0.3735108967850243 | -0.4728700346350329 |   0.1686936301927182 |
+|   -0.279286057268284 |   -0.3324180166148261 |   0.707723461541584 |   0.1578314820139345 |
+|   0.2490139784695076 |   -0.6374699548070523 | -0.4938109626094065 | -0.04539320144656525 |
+| 0.000601624266443659 |    0.4621645197586631 |  0.1343122223380801 | -0.08036827577054763 |
+
+Aquí podemos ver que la dimensión del subespacio es 4
+
+\pagebreak
+* Pseudoinversa
+** Enunciado
+Consideremos la matriz:
+\begin{align}
+A=
+\begin{pmatrix}
+1&1 &3\\
+1&4 &6\\
+1&9 &11\\
+1&16&18\\
+1&25&27
+\end{pmatrix}
+\end{align}
+
+Su rango es $r = 2$ y por lo tanto no podemos construir la matriz de
+proyección como antes (donde el rango era igual al número de
+columnas), porque $AT\cdot A$ no es inversible.
+
+Sin embargo existe esta matriz de proyección sobre el espacio de
+columnas de $A$ (en este caso de orden 5, ya que las columnas de $A$
+están en $\mathbb{R}^5$).
+
+Se pide calcular esta matriz de proyección $P$. Idea: hacer uso de la
+pseudoinversa (o inversa generalizada de Moore-Penrose de $A$), que en
+MATLAB se calcula como ~pinv(A)~.
+
+Observar que, como en el caso anterior (el caso $r = n$), se tiene
+$PA = A$.
+
+** Teoría
+Para este ejercicio tenemos que encontrar una matriz $A^+$,
+relacionada la matriz $A \in \mathbb{R}^{n \times m}$ que cumpla con
+las siguientes propiedades:
+\begin{align}\label{penroseconditions}
+AA^{+}A &= A\\
+A^{+}AA^{+} &= A^{+}\\
+\left( AA^{+} \right)^{t} &= AA^{+}\\
+\left( A^{+}A \right)^{t} &= A^{+}A
+\end{align}
+
+Si $A$ es invertible, se ve claramente que las propiedades las cumple
+$A^{-1}$
+
+Dado que $A$ tiene rango $r$, entonces $A$ tiene $r$ columnas
+linealmente independientes y asumimos que las primeras $r$ columnas de
+$A$ son linealmente independientes. Si componemos una matriz $F$ con
+sus primeras $r$ columnas igual a las primeras $r$ columnas de $A$,
+entonces sus restantes $n - r$ columnas serán una combinación lineal
+de las primeras $r$. Entonces:
+\begin{align}
+A = [F | FX]
+\end{align}
+Donde $X \in \mathbb{R}^{r \times \left( n - r \right)}$ es una matriz
+que representa la combinación lineal de los primeros $r$ vectores que
+componen el resto de la matriz $A$.
+
+Si luego formamos una matriz $R$ compuesta por la matriz identidad de
+rango $r$ y la matriz $X$
+\begin{align}
+R = [I_r | X]
+\end{align}
+
+Entonces, cuando sacamos $F$ nos queda lo siguiente:
+\begin{align}
+A = F[I_r | X]
+\end{align}
+
+Y por lo tanto, al reescribirlo, nos queda que podemos descomponer la
+matriz $A$ en una multiplicación de las matrices $F$ y $R$:
+\begin{align}
+A = FR
+\end{align}
+
+Podemos ver, que estas matrices $F$ y $R$ cumplen la propiedad de que
+el rango de $F$ es igual al rango de $R$ que es igual a $r$ y que:
+\begin{align}
+F \in \mathbb{R}^{n \times r}\\
+R \in \mathbb{R}^{r \times m}
+\end{align}
+
+Si multiplicamos $A$ por $F^t$ y $R^t$ de la siguiente forma
+obtendremos una matriz invertible:
+\begin{align}
+F^tAR^t = F^tFRR^t = \left( F^tF \right) \left( RR^t \right)
+\end{align}
+Esta matriz es invertible porque la multiplicación de $F^tF$ nos da
+una matriz cuadrada $n \times n$, simétrica y de rango $n$, igualmente
+$RR^t$ nos da una matriz con las mismas propiedades y el producto de
+estas dos matrices mantiene esas propiedades.
+
+Si tomamos la inversa de esa matriz y la multiplicamos por $R^t$ y por
+$F^t$ en ese orden, obtendremos la matriz $A^{+}$:
+\begin{align}
+R^t\left(F^tAR^t\right)^{-1}F^t =
+R^t \left( \left( F^tF \right) \left( RR^t \right) \right)^{-1} F^t
+\end{align}
+
+Como ya sabemos, $(AB)^{-1}=B^{-1}A^{-1}$
+\begin{align}
+R^t\left(F^tAR^t\right)^{-1}F^t =
+R^t \left( RR^t \right)^{-1} \left( F^tF \right)^{-1} F^t
+\end{align}
+
+Ahora, con esta formulación, podemos demostrar que esta matriz es
+$A^+$ comprobando las propiedades, para este trabajo solo se va a
+demostrar la primera $AA^+A = A$:
+\begin{align}
+A A^+ A &=
+A \cdot
+R^t \left( RR^t \right)^{-1} \left( F^tF \right)^{-1} F^t
+\cdot A\\
+&= F(RR^t) \left( RR^t \right)^{-1} \left( F^tF \right)^{-1} (F^tF)R\\
+&= FR\\
+&= A
+\end{align}
+
+Con esta forma de construir $A^+$, si el rango de $A$ es máximo
+($r = n$), por lo obteniendo anteriormente tenemos que $F=I_n$ y por
+lo tanto, para cumplir con la descomposición $A = FR$, $R=A$. De este
+modo llegamos a que para encontrar $A^+$, tendremos que hacer el
+siguiente cálculo:
+\begin{align}
+A^+ &= R^t \left( RR^t \right)^{-1} \left( F^tF \right)^{-1} F^t\\
+    &= A^t \left( AA^t \right)^{-1} \left( I_n^tI_n \right)^{-1} I_n^t\\
+    &= A^t \left( AA^t \right)^{-1}
+\end{align}
+
+O, expresado de otra forma similar, si se cumple que
+$\text{det}\left( A^t A \right) \neq 0$ entonces podemos calcular esta
+matriz así:
+\begin{align}
+A^+ = \left( A^t A \right)^{-1} A^t
+\end{align}
+
+Observando este resultado, si lo comparamos con el resultado obtenido
+en el primer ejercicio en la fórmula \ref{squaremin}, vemos que es el
+mismo.
+
+#+end_src
+
+#+RESULTS:
+|  0.6000000000000003 | -0.4000000000000003 |
+| -0.4000000000000003 |  0.6000000000000002 |
+
+Si se cumple que $\text{det}\left( A^t A \right) \neq 0$ entonces
+podemos calcular esta matriz así:
+\begin{align}
+A^+ = \left( A^t A \right)^{-1} A^t
+\end{align}
 
 \pagebreak
 * Notas del texto
